@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<h1>
+    Текущие курсы валют
+</h1>
+<div>
+    <i id class="fa fa-usd fa-1x"> USD</i>
+    <hr>
+    <i>Покупка: </i>
+    <i id="usd-buy">0 </i>
+    <hr>
+    <i>Продажа:</i>
+    <i id="usd-sale">0 </i>
+</div>
+<div>
+    <i id class="fa fa-euro fa-1x"> EUR</i>
+    <hr>
+    <i>Покупка: </i>
+    <i id="eur-buy">0 </i>
+    <hr>
+    <i>Продажа:</i>
+    <i id="eur-sale">0 </i>
+</div>
+<div>
+    <i id class="fa fa-rub fa-1x"> RUR</i>
+    <hr>
+    <i>Покупка: </i>
+    <i id="rur-buy">0 </i>
+    <hr>
+    <i>Продажа:</i>
+    <i id="rur-sale">0 </i>
+</div>
+<div>
+    <i id class="fa fa-btc fa-1x"> BTC</i>
+    <hr>
+    <i>Покупка: </i>
+    <i id="btc-buy">0 </i>
+    <hr>
+    <i>Продажа:</i>
+    <i id="btc-sale">0 </i>
+</div>
+<br>
+<br>
+<br>
+<br>
+    <form id="obmen">
+    <input type="radio" name="napravlenie" value="buy" onchange="fbuy()">Купить
+    <input type="radio" name="napravlenie" value="sale" onchange="fsale()">Продать
+    </form>
+
+        <select id="currency">
+            <option value="usd">USD</option>
+            <option value="eur">EUR</option>
+            <option value="rur">RUR</option>
+            <option value="btc">BTC</option>
+        </select>
+        <input id="kolvo">
+        <button id="result">Результат</button>
+        <i id="otvet"></i>
+
+
+
+    <script>
+        var kurs = [];
+        var usdbuy=document.getElementById("usd-buy");
+        var usdsale=document.getElementById("usd-sale");
+        var eurbuy=document.getElementById("eur-buy");
+        var eursale=document.getElementById("eur-sale");
+        var rurbuy=document.getElementById("rur-buy");
+        var rursale=document.getElementById("rur-sale");
+        var btcbuy=document.getElementById("btc-buy");
+        var btcsale=document.getElementById("btc-sale");
+        var result=document.querySelector('#result');
+        var naprav=document.querySelector('#obmen');
+        var currency=document.querySelector('#currency');
+        var x=document.querySelector("#kolvo");
+        var y=document.querySelector("#otvet");
+        var  tip, znak, cur, z;
+
+        function fbuy () {
+            tip="sale";
+            console.log(tip);
+        }
+        console.log(tip);
+        function fsale () {
+            tip="buy";
+            console.log(tip);
+        }
+
+        result.onclick = function () {
+            cur=currency.value;
+            kolvo=x.value;
+            console.log(kolvo);
+            //tip=naprav.value;
+            console.log(tip);
+            znak=cur+tip;
+            console.log(znak);
+
+            switch (znak) {
+                case 'usdbuy':
+                    z=usdbuy.innerHTML;
+                    break;
+                case 'usdsale':
+                    z=usdsale.innerHTML;
+                    break;
+                case 'rursale':
+                    z=rursale.innerHTML;
+                    break;
+                case 'rurbuy':
+                    z=rurbuy.innerHTML;
+                    break;
+                case 'eursale':
+                    z=eursale.innerHTML;
+                    break;
+                case 'eurbuy':
+                    z=eurbuy.innerHTML;
+                    break;
+                case 'btcsale':
+                    z=btcsale.innerHTML;
+                    break;
+                case 'btcbuy':
+                    z=btcbuy.innerHTML;
+                    break;
+                
+
+
+            }
+
+
+            //z=znak.innerHTML;
+            console.log(z);
+
+            console.log(cur);
+
+            itog = kolvo*z;
+            console.log(itog);
+
+            y.innerHTML=itog;
+
+
+
+        }
+
+
+
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            kurs = this.response;
+            console.log(kurs);
+
+            usdbuy.innerHTML=+(kurs[2].buy);
+            usdsale.innerHTML=+(kurs[2].sale);
+            eurbuy.innerHTML=+(kurs[0].buy);
+            eursale.innerHTML=+(kurs[0].sale);
+            rurbuy.innerHTML=+(kurs[1].buy);
+            rursale.innerHTML=+(kurs[1].sale);
+            btcbuy.innerHTML=+(kurs[3].buy);
+            btcsale.innerHTML=+(kurs[3].sale);
+
+
+
+
+
+
+        }
+
+        xhr.open("GET", "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5");
+        xhr.responseType = "json";
+        xhr.send();
+        console.log(xhr);
+
+
+
+
+    </script>
+
+
+
+</body>
+</html>
